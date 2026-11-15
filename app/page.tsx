@@ -1,12 +1,14 @@
 import { Hero } from "@/components/hero/Hero";
-import { Recents } from "@/components/sections/Recents";
+import { About } from "@/components/sections/About";
+import { EventPanels } from "@/components/events/EventPanels";
 import { Contact } from "@/components/sections/Contact";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Recents />
+      <About />
+      <EventPanels />
       <Contact />
     </>
   );
