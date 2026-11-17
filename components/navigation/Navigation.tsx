@@ -82,7 +82,16 @@ export function Navigation() {
     <header className={`fixed inset-x-0 top-0 z-50 h-16 border-b transition-colors duration-200 md:h-20 ${scrolled || menuOpen ? "border-steel-500/40 bg-navy-950" : "border-transparent bg-transparent"}`}>
       <nav className="relative z-20 mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
         <Link href="/" className="flex items-center gap-3" aria-label="NUST Robotics Club home">
-          <Image src="/assets/nrc-logo.png" alt="NUST Robotics Club" width={64} height={40} priority className="h-10 w-auto object-contain md:h-12" />
+          <Image
+            src="/assets/nrc-logo.png"
+            alt="NUST Robotics Club"
+            width={256}
+            height={160}
+            quality={100}
+            unoptimized
+            priority
+            className="h-10 w-auto object-contain md:h-12"
+          />
           <span className="hidden font-display text-sm uppercase tracking-[0.12em] text-steel-300 sm:block">NUST Robotics Club</span>
         </Link>
 
