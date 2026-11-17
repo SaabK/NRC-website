@@ -1,138 +1,151 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { techTrek } from "@/data/techtrek";
 
-const navLinks = [
-  { label: "EVENTS", href: "/events" },
-  { label: "RECENTS", href: "/#recents" },
+const links = [
+  { label: "Modules", href: "/#modules" },
+  { label: "Schedule", href: "/#schedule" },
+  { label: "Fee", href: "/#fee" },
+  { label: "Contact", href: "/#contact" },
+  { label: "Events", href: "/events" },
 ];
 
+function getLinkHash(href: string) {
+  const hashIndex = href.indexOf("#");
+  return hashIndex === -1 ? "" : href.slice(hashIndex + 1);
+}
+
+function isCurrentLink(href: string, pathname: string, activeHash: string) {
+  const hashIndex = href.indexOf("#");
+  if (hashIndex !== -1) {
+    const linkPath = href.slice(0, hashIndex) || "/";
+    return pathname === linkPath && activeHash === href.slice(hashIndex + 1);
+  }
+  return pathname === href || (href === "/events" && pathname.startsWith("/events/"));
+}
+
 export function Navigation() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState("");
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const wasOpenRef = useRef(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 48);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    if (menuOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
-    return () => { document.body.style.overflow = ""; };
+    const updateHash = () => setActiveHash(window.location.hash.slice(1));
+    updateHash();
+    window.addEventListener("hashchange", updateHash);
+    window.addEventListener("popstate", updateHash);
+    return () => {
+      window.removeEventListener("hashchange", updateHash);
+      window.removeEventListener("popstate", updateHash);
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    if (menuOpen) {
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      firstLinkRef.current?.focus();
+      return () => { document.body.style.overflow = previousOverflow; };
+    }
+    if (wasOpenRef.current) toggleRef.current?.focus();
+    wasOpenRef.current = false;
   }, [menuOpen]);
 
-  return (
-    <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex justify-center ${
-          scrolled
-            ? "bg-[#060810]/92 backdrop-blur-md border-b border-[rgba(232,79,14,0.1)]"
-            : "bg-transparent"
-        }`}
-      >
-        <nav
-          className="max-w-[1400px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between w-full"
-          aria-label="Main navigation"
-        >
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group" aria-label="NRC Home">
-            <div className="relative w-12 h-8 flex-shrink-0">
-              <Image
-                src="/assets/nrc-logo.png"
-                alt="NRC Logo"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-            <span
-              className="font-display text-xs tracking-[0.25em] text-[#9AA0B2] uppercase hidden sm:block group-hover:text-white transition-colors duration-200"
-            >
-              NUST Robotics Club
-            </span>
-          </Link>
+  useEffect(() => {
+    if (!menuOpen) return;
+    wasOpenRef.current = true;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
 
-          {/* Desktop nav */}
-          <ul className="hidden md:flex items-center gap-8" role="list">
-            {navLinks.map((link) => (
+  const closeMenu = () => setMenuOpen(false);
+
+  return (
+    <header className={`fixed inset-x-0 top-0 z-50 h-16 border-b transition-colors duration-200 md:h-20 ${scrolled || menuOpen ? "border-steel-500/40 bg-navy-950" : "border-transparent bg-transparent"}`}>
+      <nav className="relative z-20 mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+        <Link href="/" className="flex items-center gap-3" aria-label="NUST Robotics Club home">
+          <Image src="/assets/nrc-logo.png" alt="NUST Robotics Club" width={64} height={40} priority className="h-10 w-auto object-contain md:h-12" />
+          <span className="hidden font-display text-sm uppercase tracking-[0.12em] text-steel-300 sm:block">NUST Robotics Club</span>
+        </Link>
+
+        <ul className="hidden items-center gap-5 lg:flex" role="list">
+          {links.map((link) => {
+            const hash = getLinkHash(link.href);
+            return (
               <li key={link.label}>
                 <Link
                   href={link.href}
-                  className="font-display text-xs tracking-[0.2em] text-[#9AA0B2] hover:text-white transition-colors duration-200 relative group"
+                  onClick={() => { if (hash) setActiveHash(hash); }}
+                  aria-current={isCurrentLink(link.href, pathname, activeHash) ? "page" : undefined}
+                  className="nav-link inline-block font-display text-sm uppercase tracking-wider text-steel-300 transition-colors hover:text-steel-100"
                 >
                   {link.label}
-                  <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#E84F0E] group-hover:w-full transition-all duration-300" />
                 </Link>
               </li>
-            ))}
-          </ul>
+            );
+          })}
+        </ul>
 
-          {/* Hamburger (mobile) */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="flex flex-col gap-1.5 p-2 group"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={menuOpen}
-            >
-              <span
-                className={`block w-5 h-px bg-white transition-all duration-300 ${
-                  menuOpen ? "translate-y-2 rotate-45" : ""
-                }`}
-              />
-              <span
-                className={`block w-5 h-px bg-white transition-all duration-300 ${
-                  menuOpen ? "opacity-0" : ""
-                }`}
-              />
-              <span
-                className={`block w-5 h-px bg-white transition-all duration-300 ${
-                  menuOpen ? "-translate-y-2 -rotate-45" : ""
-                }`}
-              />
-            </button>
-          </div>
-        </nav>
-      </header>
+        <div className="hidden lg:block">
+          <a href={techTrek.registrationUrl} target="_blank" rel="noopener noreferrer" className="tech-button inline-flex h-11 items-center justify-center gap-2 rounded-md bg-orange-nrc px-6 text-steel-100 transition-colors motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 hover:bg-orange-light">
+            Register <span aria-hidden="true">→</span>
+          </a>
+        </div>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-[#060810] flex flex-col pt-20 px-6"
-          >
-            <nav aria-label="Mobile navigation">
-              <ul className="flex flex-col gap-1" role="list">
-                {navLinks.map((link, i) => (
-                  <motion.li
-                    key={link.label}
-                    initial={{ opacity: 0, x: -16 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.06 + 0.1 }}
+        <button ref={toggleRef} type="button" className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-steel-500/50 text-steel-100 lg:hidden" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} aria-controls="mobile-navigation">
+          <span className="font-mono text-xs">{menuOpen ? "Close" : "Menu"}</span>
+        </button>
+      </nav>
+
+      <div id="mobile-navigation" className={`fixed inset-0 z-10 bg-navy-950 px-6 pb-10 pt-24 lg:hidden ${menuOpen ? "flex flex-col" : "hidden"}`} aria-hidden={!menuOpen}>
+        <nav aria-label="Mobile navigation">
+          <ul className="flex flex-col" role="list">
+            {links.map((link, index) => {
+              const hash = getLinkHash(link.href);
+              return (
+                <li key={link.label} className="border-b border-steel-500/30">
+                  <Link
+                    ref={index === 0 ? firstLinkRef : undefined}
+                    href={link.href}
+                    onClick={() => {
+                      if (hash) setActiveHash(hash);
+                      closeMenu();
+                    }}
+                    aria-current={isCurrentLink(link.href, pathname, activeHash) ? "page" : undefined}
+                    tabIndex={menuOpen ? 0 : -1}
+                    className="nav-link inline-block py-4 font-display text-3xl font-semibold uppercase tracking-wider text-steel-100"
                   >
-                    <Link
-                      href={link.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="block font-display text-3xl font-bold text-white py-2 border-b border-[rgba(232,79,14,0.1)] hover:text-[#E84F0E] transition-colors duration-200"
-                    >
-                      {link.label}
-                    </Link>
-                  </motion.li>
-                ))}
-              </ul>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+        <div className="mt-auto">
+          <a href={techTrek.registrationUrl} target="_blank" rel="noopener noreferrer" onClick={closeMenu} tabIndex={menuOpen ? 0 : -1} className="tech-button flex h-12 items-center justify-center gap-2 rounded-md bg-orange-nrc px-5 text-steel-100 transition-colors motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 hover:bg-orange-light">
+            Register <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </header>
   );
 }

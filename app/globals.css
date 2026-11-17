@@ -1,10 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Barlow Condensed", sans-serif;
-  --font-body: "Barlow", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-display: var(--font-display-family), sans-serif;
+  --font-body: var(--font-body-family), sans-serif;
+  --font-mono: var(--font-mono-family), monospace;
 
   --color-navy-950: #060810;
   --color-navy-900: #080c18;
@@ -31,21 +30,183 @@
   }
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: #060810;
+    color: #F0F2F5;
+    font-family: var(--font-body);
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-}
+@layer components {
+  .type-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 5.2vw, 5rem);
+    font-weight: 700;
+    line-height: 0.95;
+  }
 
-body {
-  background-color: #060810;
-  color: #F0F2F5;
-  font-family: var(--font-body);
-  overflow-x: hidden;
+  .type-h2 {
+    font-family: var(--font-display);
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .type-h3 {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .type-body-lg {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .type-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .tech-button {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .text-link,
+  .nav-link {
+    position: relative;
+    text-decoration: none;
+  }
+
+  .text-link::after,
+  .nav-link::after {
+    position: absolute;
+    right: 0;
+    bottom: -0.2rem;
+    left: 0;
+    height: 1px;
+    background: var(--color-orange-nrc);
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms ease-out;
+  }
+
+  .nav-link[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+
+  .hud-card {
+    position: relative;
+    transition: transform 300ms ease-out, border-color 300ms ease-out, background-color 300ms ease-out;
+  }
+
+  .hud-corner {
+    position: absolute;
+    z-index: 1;
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease-out;
+  }
+
+  .hud-corner-tl { top: 0; left: 0; border-top: 1px solid rgb(232 79 14 / 70%); border-left: 1px solid rgb(232 79 14 / 70%); }
+  .hud-corner-tr { top: 0; right: 0; border-top: 1px solid rgb(232 79 14 / 70%); border-right: 1px solid rgb(232 79 14 / 70%); }
+  .hud-corner-bl { bottom: 0; left: 0; border-bottom: 1px solid rgb(232 79 14 / 70%); border-left: 1px solid rgb(232 79 14 / 70%); }
+  .hud-corner-br { right: 0; bottom: 0; border-right: 1px solid rgb(232 79 14 / 70%); border-bottom: 1px solid rgb(232 79 14 / 70%); }
+
+  .hero-grid {
+    background-image:
+      linear-gradient(rgb(240 242 245 / 4%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(240 242 245 / 4%) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, #000 10%, transparent 76%);
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--color-orange-nrc);
+    animation: status-pulse 2s ease-in-out infinite;
+  }
+
+  .section-divider {
+    position: relative;
+    height: 1px;
+    margin-block: -1.5rem;
+    background: rgb(61 67 88 / 40%);
+  }
+
+  .section-divider::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: var(--color-orange-nrc);
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
+  .details-chevron {
+    transition: transform 200ms ease-out;
+  }
+
+  .outcome-icon {
+    transition: border-color 300ms ease-out, color 300ms ease-out;
+  }
+
+  .countdown-value {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .button-arrow {
+    display: inline-block;
+    transition: transform 200ms ease-out;
+  }
+
+  details[open] .details-chevron {
+    transform: rotate(180deg);
+  }
+
+  details[open] .details-content {
+    animation: details-reveal 200ms ease-out both;
+  }
+
+  @keyframes status-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  @keyframes details-reveal {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 }
 
 ::selection {
@@ -83,4 +244,40 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+@media (hover: hover) {
+  .text-link:hover::after,
+  .nav-link:hover::after { transform: scaleX(1); }
+
+  .hud-card:hover .hud-corner { opacity: 1; }
+  .hud-card:hover .outcome-icon { border-color: var(--color-orange-light); color: var(--color-orange-light); }
+
+  .hud-card:hover {
+    transform: translateY(-0.25rem);
+    border-color: rgb(232 79 14 / 50%);
+    background-color: var(--color-navy-800);
+  }
+
+  .tech-button:hover .button-arrow { transform: translateX(2px); }
+}
+
+@media (min-width: 48rem) {
+  .type-h2 { font-size: 2.25rem; }
+  .type-h3 { font-size: 1.25rem; }
+  .type-body-lg { font-size: 1.125rem; }
+}
+
+@media (min-width: 64rem) {
+  .type-h2 { font-size: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-dot { animation: none; }
+  details[open] .details-content { animation: none; }
+}
+
+@media (max-height: 760px) and (min-width: 64rem) {
+  .hero-title { font-size: clamp(2.75rem, 5.2vw, 4rem); }
+  .hero-copy { gap: 0.75rem; }
 }

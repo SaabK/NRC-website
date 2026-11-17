@@ -1,140 +1,41 @@
 import Link from "next/link";
 import Image from "next/image";
 import { siteConfig } from "@/data/site";
+import { Container } from "@/components/home/ui/Container";
 
-const platformAbbr: Record<string, string> = {
-  instagram: "IG",
-  linkedin: "LI",
-  facebook: "FB",
-  youtube: "YT",
-};
+const footerLinks = [
+  { label: "Modules", href: "/#modules" },
+  { label: "Schedule", href: "/#schedule" },
+  { label: "Fee", href: "/#fee" },
+  { label: "Contact", href: "/#contact" },
+  { label: "Events", href: "/events" },
+];
 
 export function Footer() {
   return (
-    <footer
-      className="bg-[#060810] border-t border-[rgba(232,79,14,0.1)] flex justify-center"
-      role="contentinfo"
-    >
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 pt-16 pb-10 w-full">
-
-        {/* Top tagline row */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-14 pb-12 border-b border-[rgba(255,255,255,0.05)]">
+    <footer className="border-t border-steel-500/40 bg-navy-950" role="contentinfo">
+      <Container className="py-10">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div>
-            <Link href="/" className="inline-flex items-center gap-3 mb-4" aria-label="NRC Home">
-              <div className="relative w-10 h-7 flex-shrink-0">
-                <Image
-                  src="/assets/nrc-logo.png"
-                  alt="NRC"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <span className="font-display font-black text-white text-base tracking-wider">NRC</span>
+            <Link href="/" className="inline-flex items-center gap-3" aria-label="NUST Robotics Club home">
+              <Image src="/assets/nrc-logo.png" alt="NUST Robotics Club" width={56} height={36} className="h-8 w-12 object-contain" />
+              <span className="font-display text-base font-semibold text-steel-100">NRC</span>
             </Link>
-            <p className="text-[#6B7285] text-sm leading-relaxed max-w-[38ch]">
-              NUST Robotics Club. Engineering Pakistan&apos;s most competitive
-              university robotics teams since our founding.
-            </p>
+            <a href={`mailto:${siteConfig.contact[0].email}`} className="mt-3 block text-sm text-steel-400 transition-colors hover:text-steel-100">{siteConfig.contact[0].email}</a>
           </div>
-        </div>
-
-        {/* Link columns */}
-        {/* After social column is added, change lg:grid-cols-[1fr_1fr_1fr] to lg:grid-cols-[1.4fr_1fr_1fr_1fr] */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr] gap-10 mb-14">
-
-          {/* Social */}
-          {/* Uncomment only after socials are developed */}
-          {/* <div>
-            <div className="font-mono text-[9px] tracking-[0.3em] text-[#E84F0E] uppercase mb-5">
-              Follow Us
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {siteConfig.social.map((s) => (
-                <a
-                  key={s.platform}
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 border border-[rgba(232,79,14,0.18)] flex items-center justify-center text-[#6B7285] hover:text-[#E84F0E] hover:border-[rgba(232,79,14,0.5)] hover:bg-[rgba(232,79,14,0.06)] transition-all duration-200 rounded-sm"
-                  aria-label={s.platform}
-                >
-                  <span className="font-display text-[9px] font-bold tracking-wider">
-                    {platformAbbr[s.platform.toLowerCase()] ?? s.platform.substring(0, 2).toUpperCase()}
-                  </span>
-                </a>
-              ))}
-            </div>
-          </div> */}
-
-          {/* Navigate */}
-          <div>
-            <div className="font-mono text-[9px] tracking-[0.3em] text-[#E84F0E] uppercase mb-5">
-              Navigate
-            </div>
-            <ul className="flex flex-col gap-3" role="list">
-              {[
-                { label: "Events", href: "/events" },
-                { label: "Recents", href: "/#recents" },
-                { label: "Contact", href: "/#contact" },
-              ].map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-[#6B7285] text-sm hover:text-white transition-colors duration-200"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+          <nav aria-label="Footer navigation">
+            <ul className="flex flex-wrap gap-x-5 gap-y-3 text-sm text-steel-400" role="list">
+              {footerLinks.map((link) => <li key={link.label}><Link href={link.href} className="text-link transition-colors hover:text-steel-100">{link.label}</Link></li>)}
             </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <div className="font-mono text-[9px] tracking-[0.3em] text-[#E84F0E] uppercase mb-5">
-              Contact
-            </div>
-            <ul className="flex flex-col gap-3" role="list">
-              {siteConfig.contact.map((c) => (
-                <li key={c.label}>
-                  <div className="font-mono text-[9px] tracking-[0.2em] text-[#3D4358] uppercase mb-0.5">
-                    {c.label}
-                  </div>
-                  <a
-                    href={`mailto:${c.email}`}
-                    className="text-[#6B7285] text-sm hover:text-white transition-colors duration-200"
-                  >
-                    {c.email}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Location */}
-          <div>
-            <div className="font-mono text-[9px] tracking-[0.3em] text-[#E84F0E] uppercase mb-5">
-              Location
-            </div>
-            <p className="text-[#6B7285] text-sm leading-relaxed">
-              {siteConfig.university}
-              <br />
-              {siteConfig.location}
-            </p>
-          </div>
+          </nav>
+          <ul className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-steel-400" aria-label="Social media">
+            {siteConfig.social.map((social) => <li key={social.platform}><a href={social.url} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-steel-100">{social.platform}</a></li>)}
+          </ul>
         </div>
-
-        {/* Bottom bar */}
-        <div className="pt-6 border-t border-[rgba(255,255,255,0.04)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <span className="font-mono text-[9px] tracking-[0.2em] text-[#2A2F42]">
-            © {new Date().getFullYear()} NUST ROBOTICS CLUB. ALL RIGHTS RESERVED.
-          </span>
-          <span className="font-mono text-[9px] tracking-[0.2em] text-[#2A2F42]">
-            NUST — ISLAMABAD — PAKISTAN
-          </span>
+        <div className="mt-12 border-t border-steel-500/40 pt-6 text-sm text-steel-400">
+          © {new Date().getFullYear()} NUST Robotics Club
         </div>
-
-      </div>
+      </Container>
     </footer>
   );
 }
