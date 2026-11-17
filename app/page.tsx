@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig reducedMotion="never">
       <Hero />
       <ModulesSection />
       <SectionDivider />

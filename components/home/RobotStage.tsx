@@ -61,7 +61,10 @@ export function RobotStage() {
 
     const detectQuality = () => {
       const nav = navigator as Navigator & { deviceMemory?: number };
-      const weakDevice = window.innerWidth < 768 || navigator.hardwareConcurrency <= 4 || (nav.deviceMemory !== undefined && nav.deviceMemory <= 4);
+      const weakDevice =
+        window.innerWidth < 768 ||
+        navigator.hardwareConcurrency <= 4 ||
+        (nav.deviceMemory !== undefined && nav.deviceMemory <= 4);
       setQuality({ weakDevice, segments: weakDevice ? 32 : 48 });
     };
     detectQuality();
@@ -110,7 +113,7 @@ export function RobotStage() {
     return () => observer.disconnect();
   }, []);
 
-  const shouldRender = canRender && isInView && isVisible && canUseWebGL;
+  const shouldRender = canRender && canUseWebGL && !reducedMotion;
 
   return (
     <div
