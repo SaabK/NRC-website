@@ -1,7 +1,29 @@
 import type { Metadata } from "next";
+import { Chakra_Petch, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/navigation/Navigation";
 import { Footer } from "@/components/Footer";
+
+const displayFont = Chakra_Petch({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  display: "swap",
+  variable: "--font-display-family",
+});
+
+const bodyFont = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-body-family",
+});
+
+const monoFont = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-mono-family",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -47,10 +69,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable} ${monoFont.variable}`}>
+      <body className="font-body">
         <Navigation />
-        <main>{children}</main>
+        <main className="min-w-0">{children}</main>
         <Footer />
       </body>
     </html>

@@ -71,3 +71,61 @@ export interface JoinRole {
   responsibilities: string[];
   requirements: string[];
 }
+
+export interface TechTrekModule {
+  number: number;
+  title: string;
+  day: "Day 1" | "Day 2";
+  duration: string;
+  description: string;
+  outcomes: string[];
+  track?: "AI TRACK";
+}
+
+export interface TechTrekScheduleItem {
+  time: string;
+  activity: string;
+}
+
+export interface TechTrekScheduleDay {
+  day: "Day 1" | "Day 2";
+  items: TechTrekScheduleItem[];
+}
+
+export interface TechTrekBenefit {
+  title: string;
+  description: string;
+}
+
+export interface TechTrekSectionCopy {
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
+export interface TechTrekData {
+  startDate: string | null;
+  endDate: string | null;
+  venue: string;
+  registrationUrl: string;
+  registrationDeadline: string;
+  contact: { email: string; phone: string };
+  title: string;
+  tagline: string;
+  intro: string;
+  scheduleNote: string;
+  dateAnnouncement: string;
+  sectionCopy: {
+    modules: TechTrekSectionCopy;
+    schedule: TechTrekSectionCopy;
+    fee: TechTrekSectionCopy;
+    contact: TechTrekSectionCopy;
+  };
+  modules: TechTrekModule[];
+  schedule: TechTrekScheduleDay[];
+  eligibility: string[];
+  fee: number;
+  included: string[];
+  benefits: TechTrekBenefit[];
+  experiences: TechTrekBenefit[];
+}
