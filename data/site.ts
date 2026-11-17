@@ -39,10 +39,10 @@ export const siteConfig: SiteConfig = {
       url: "https://facebook.com/nrcnust",
       handle: "NRC NUST",
     },
-    {
-      platform: "YouTube",
-      url: "https://youtube.com/@nrcnust",
-      handle: "@nrcnust",
-    },
+    // {
+    //   platform: "YouTube",
+    //   url: "https://youtube.com/@nrcnust",
+    //   handle: "@nrcnust",
+    // },
   ],
 };
