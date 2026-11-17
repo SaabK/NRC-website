@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { techTrek } from "@/data/techtrek";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -80,12 +81,13 @@ export default function EventsPage() {
               </div>
 
               <div className="flex-shrink-0">
-                <span
-                  className="inline-flex items-center gap-2 font-display font-bold text-[#E84F0E] bg-[#E84F0E]/10 border border-[#E84F0E]/30 rounded-full"
+                <Link
+                  href={techTrek.registrationUrl}
+                  className="inline-flex items-center gap-2 font-display font-bold text-white bg-[#E84F0E] hover:bg-[#FF6B2B] rounded-full shadow-[0_0_15px_rgba(232,79,14,0.3)] transition-all"
                   style={{ fontSize: "0.75rem", letterSpacing: "0.1em", padding: "14px 28px" }}
                 >
-                  COMING SOON
-                </span>
+                  REGISTER NOW →
+                </Link>
               </div>
             </div>
           </div>
