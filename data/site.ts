@@ -26,7 +26,7 @@ export const siteConfig: SiteConfig = {
   social: [
     {
       platform: "Instagram",
-      url: "https://instagram.com/nrc_nust",
+      url: "https://instagram.com/nrc.nust",
       handle: "@nrc_nust",
     },
     {

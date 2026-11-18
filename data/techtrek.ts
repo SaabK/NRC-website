@@ -3,14 +3,14 @@ import { siteConfig } from "@/data/site";
 
 // Replace all PLACEHOLDER values before going live.
 export const techTrek: TechTrekData = {
-  startDate: "2026-12-05T09:00:00+05:00", // PLACEHOLDER: real dates TBD
-  endDate: "2026-12-06T17:00:00+05:00", // PLACEHOLDER: real dates TBD
-  venue: "NUST Campus, H-12, Islamabad", // PLACEHOLDER: confirm venue
+  startDate: "2026-12-05T09:00:00+05:00", 
+  endDate: "2026-12-06T17:00:00+05:00", 
+  venue: "NUST Campus, H-12, Islamabad", 
   registrationUrl: "/events/techtrek26", 
-  registrationDeadline: "2027-01-05", // PLACEHOLDER: confirm deadline
+  registrationDeadline: "2026-11-27", 
   contact: {
     email: siteConfig.contact[0].email,
-    phone: "+92 300 0000000", // PLACEHOLDER: replace phone
+    phone: "+92 335 6465165", 
   },
   title: "TechTrek 2026",
   tagline: "Build real robots. Two days. No experience needed.",
