@@ -15,15 +15,11 @@ const labelClass =
 
 const paymentAccounts = [
   {
-    bank: "EASYPAISA",
-    accountName: "MUHAMMAD AWAIS",
-    accountNumber: "03099781770",
-  },
-  {
-    bank: "NAYAPAY",
-    accountName: "Sardar Ahmed feroz ali khan",
-    accountNumber: "03440155395",
-  },
+    bank: "HBL (Habib Bank Limited)",
+    branch: "H-12 Sector, NUST, Islamabad",
+    accountName: "SMME Recurring FUND",
+    accountNumber: "22927000519501",
+  }
 ];
 // NOTE: Metadata exports are not permitted from Client Components.
 // We will move metadata to a separate server page if needed.
@@ -219,12 +215,15 @@ export default function TechTrek26Page() {
                   className="border border-[rgba(232,79,14,0.2)] p-6 bg-[rgba(232,79,14,0.03)]"
                 >
                   <p className="font-mono text-[10px] tracking-[0.2em] text-[#E84F0E] uppercase mb-4">
-                    Payment Account {index + 1}
+                    Payment Account
                   </p>
 
-                  <p className="text-white font-semibold mb-4">
+                  <p className="text-white font-semibold">
                     {account.bank}
                   </p>
+                  <p className="text-white text-sm break-all mb-4">
+                        {account.branch}
+                      </p>
 
                   <div className="mb-4">
                     <p className="text-xs text-[#6B7285] mb-2">
