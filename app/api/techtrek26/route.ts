@@ -146,7 +146,7 @@ export async function POST(request: Request) {
 
     return Response.json({
       success: true,
-      message: "Registration received successfully!",
+      message: "Registration received successfully! You'll shortly recieve an email confirming your registration.",
     });
 
   } catch (error) {
