@@ -191,20 +191,52 @@ export default function TechTrek26Page() {
             </div>
           </div>
 
-          <div>
-            <label htmlFor="age" className={labelClass}>
-              Age *
-            </label>
-            <input
-              id="age"
-              name="age"
-              type="number"
-              min="1"
-              max="100"
-              required
-              className={inputClass}
-              placeholder="Your age"
-            />
+          <div className="grid sm:grid-cols-2 gap-8">
+            <div>
+              <label htmlFor="age" className={labelClass}>
+                Age *
+              </label>
+              <input
+                id="age"
+                name="age"
+                type="number"
+                min="1"
+                max="100"
+                required
+                className={inputClass}
+                placeholder="Your age"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className={labelClass}>
+                Email Address *
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className={inputClass}
+                placeholder="you@example.com"
+                autoComplete="email"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="applicantCnic" className={labelClass}>
+                Applicant&apos;s CNIC / B-Form Number *
+              </label>
+              <input
+                id="applicantCnic"
+                name="applicantCnic"
+                type="text"
+                required
+                className={inputClass}
+                placeholder="XXXXX-XXXXXXX-X"
+              />
+            </div>
+
           </div>
 
           {/* Payment & Guardian Details */}

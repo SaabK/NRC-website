@@ -37,6 +37,8 @@ export async function POST(request: Request) {
     const grade = formData.get("grade");
     const age = formData.get("age");
     const guardianCnic = formData.get("guardianCnic");
+    const email = formData.get("email");
+    const applicantCnic = formData.get("applicantCnic");
 
     const paymentReceipt = formData.get("paymentReceipt");
     const cnicImage = formData.get("cnicImage");
@@ -48,12 +50,16 @@ export async function POST(request: Request) {
       typeof school !== "string" ||
       typeof grade !== "string" ||
       typeof age !== "string" ||
+      typeof email !== "string" ||
+      typeof applicantCnic !== "string" ||
       typeof guardianCnic !== "string" ||
       !participantName.trim() ||
       !phone.trim() ||
       !school.trim() ||
       !grade.trim() ||
       !age.trim() ||
+      !email.trim() ||
+      !applicantCnic.trim() ||
       !guardianCnic.trim()
     ) {
       return Response.json(
@@ -72,6 +78,15 @@ export async function POST(request: Request) {
     ) {
       return Response.json(
         { success: false, message: "Please enter a valid age." },
+        { status: 400 }
+      );
+    }
+
+    // Validate Email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      return Response.json(
+        { success: false, message: "Please enter a valid email address." },
         { status: 400 }
       );
     }
@@ -125,6 +140,8 @@ export async function POST(request: Request) {
         school: school.trim(),
         grade: grade.trim(),
         age: numericAge,
+        email: email.trim(),
+        applicantCnic: applicantCnic.trim(),
         guardianCnic: guardianCnic.trim(),
 
         paymentReceipt: await convertFile(paymentReceipt),
