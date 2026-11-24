@@ -237,7 +237,27 @@ export default function TechTrek26Page() {
               />
             </div>
 
+            <div>
+              <label
+                htmlFor="needsAccommodation"
+                className="flex items-center gap-3 cursor-pointer select-none min-h-[52px] bg-[#060810] border border-[rgba(232,79,14,0.2)] px-4 py-3 md:px-5 md:py-4 hover:border-[#E84F0E] transition-all duration-300"
+              >
+                <input
+                  id="needsAccommodation"
+                  name="needsAccommodation"
+                  type="checkbox"
+                  value="yes"
+                  className="h-4 w-4 accent-[#E84F0E] bg-[#060810] border-[rgba(232,79,14,0.4)] rounded-none cursor-pointer"
+                />
+                <span className="text-sm text-white">
+                  I need accommodation at NUST for the 2-day workshop event (Extra charges: 1200 pkr)
+                </span>
+              </label>
+            </div>
+
           </div>
+
+          
 
           {/* Payment & Guardian Details */}
               <div className="grid md:grid-cols-2 gap-6">

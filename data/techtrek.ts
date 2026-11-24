@@ -126,6 +126,7 @@ export const techTrek: TechTrekData = {
     "Movie session",
     "Contest entry",
     "Certificate of participation",
+    "Hostel Accomodation (will incur additional charges, 1200 pkr)"
   ],
   benefits: [
     { title: "Practical skills", description: "Arduino, sensors, motors, wireless control, and computer vision." },

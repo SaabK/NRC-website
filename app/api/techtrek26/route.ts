@@ -39,6 +39,7 @@ export async function POST(request: Request) {
     const guardianCnic = formData.get("guardianCnic");
     const email = formData.get("email");
     const applicantCnic = formData.get("applicantCnic");
+    const needsAccommodation = formData.get("needsAccommodation") === "yes";
 
     const paymentReceipt = formData.get("paymentReceipt");
     const cnicImage = formData.get("cnicImage");
@@ -143,6 +144,7 @@ export async function POST(request: Request) {
         email: email.trim(),
         applicantCnic: applicantCnic.trim(),
         guardianCnic: guardianCnic.trim(),
+        needsAccommodation,
 
         paymentReceipt: await convertFile(paymentReceipt),
         cnicImage: await convertFile(cnicImage),
