@@ -32,7 +32,7 @@ export const techTrek: TechTrekData = {
     fee: {
       eyebrow: "Eligibility & fee",
       title: "Who can join",
-      description: "Grades 8–12, O Level, and A Level students. One category and the same programme for everyone.",
+      description: "Grades 8–12, O Level, A Level & Undergrad students. One category and the same programme for everyone.",
     },
     contact: {
       eyebrow: "Join us",
@@ -142,3 +142,6 @@ export const techTrek: TechTrekData = {
     { title: "Showcase & contest", description: "Present your work at the closing ceremony." },
   ],
 };
+
+
+
