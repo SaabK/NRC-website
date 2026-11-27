@@ -36,9 +36,9 @@ export async function POST(request: Request) {
     const school = formData.get("school");
     const grade = formData.get("grade");
     const age = formData.get("age");
-    const guardianCnic = formData.get("guardianCnic");
     const email = formData.get("email");
     const applicantCnic = formData.get("applicantCnic");
+    const guardianCnic = formData.get("guardianCnic");
     const needsAccommodation = formData.get("needsAccommodation") === "yes";
 
     const paymentReceipt = formData.get("paymentReceipt");
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate Email
+    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.trim())) {
       return Response.json(
